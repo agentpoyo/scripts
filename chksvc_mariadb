@@ -1,0 +1,17 @@
+#!/bin/bash
+# Script to restart MariaDB on droplets.
+#
+# Written by Drew Bentley 2019-12-27
+#
+# Smaller DO droplets seem to kill off MySQL from time to time.
+# This script can be scheduled to check every minute and if 
+# mysqld isn't detected, restarts it.
+
+SVC=mysql
+
+if (( $(ps -ef | grep -v grep | grep $SVC | wc -l) > 0 ))
+  then
+    echo "MariaDB running, nothing to do."
+  else
+    /usr/bin/systemctl restart mariadb
+fi
